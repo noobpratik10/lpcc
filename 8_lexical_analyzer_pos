@@ -1,0 +1,67 @@
+% {
+#include <stdio.h>
+      % }
+
+        % % "dread" |
+    "run" | "arrives"
+{
+    printf("%s -> VERB\n", yytext);
+}
+"destiny" | "it" { printf("%s -> NOUN\n", yytext); }
+"the" | "all" { printf("%s -> DETERMINER\n", yytext); }
+"from" { printf("%s -> PREPOSITION\n", yytext); }
+[.?!]                       {
+    printf("%s -> PUNCTUATION\n", yytext);}
+[\t\n]+                     { /* Ignore whitespace */ }
+.                           {printf("%s -> UNKNOWN\n", yytext);}
+% %
+
+    int main()
+{
+    printf("Parts of Speech Tagging:\n");
+    yylex();
+    return 0;
+}
+
+// how to run the program
+// flex 8_lexical_analyzer_pos.l
+// gcc lex.yy.c -o 8_lexical_analyzer_pos
+// ./8_lexical_analyzer_pos
+
+% {
+#include <stdio.h>
+      % }
+
+        % %
+        // pronouns
+        "you" |
+    "You" | "I"
+{
+    printf("%s -> Pronouns\n", yytext);
+}
+// Verbs
+"are" | "fine" | "Thank" { printf("%s -> Vebs\n", yytext); }
+// Contractions
+"I'm" { printf("%s -> Contractions\n", yytext); }
+// Greetings
+"Hello" { printf("%s -> Greetings\n", yytext); }
+// Punctuations
+    [.!?,]+                      {printf("%s -> Punctuations\n",yytext);}
+    // whitespaces
+    [\t\n\r] + {/* Ignore white spaces */} // unknowns
+                   [a - zA - Z] +
+    {
+        printf("%s -> Unknowns\n", yytext);
+    }
+    % %
+
+        int main()
+    {
+        printf("Hello World\n");
+        yylex(); // start lexical analysis
+        return 0;
+    }
+
+    // flex my_first_lexer.l
+    // gcc lex.yy.c -o my_first_lexer.l -ll
+    // ./my_first_lexer
